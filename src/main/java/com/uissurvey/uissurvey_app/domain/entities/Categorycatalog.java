@@ -1,8 +1,7 @@
 package com.uissurvey.uissurvey_app.domain.entities;
 
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
@@ -11,19 +10,19 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"catalogoptions","optioncatalog","subquestcatalog"})
-@ToString(exclude = {"catalogoptions","optioncatalog","subquestcatalog"})
+@EqualsAndHashCode(exclude = {"categoriesoptionResponse"})
+@ToString(exclude = {"categoriesoptionResponse"})
 @Table(name = "categories_catalog")
 @Entity
 public class Categorycatalog {
@@ -31,20 +30,11 @@ public class Categorycatalog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "El nombre no puede ser nulo")
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "catalogoptions_id")
-    private List<CategoryOption> catalogoptions;
-
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "optioncatalog_id")
-    private List<OptionQuestion> optioncatalog;
-
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "subquestcatalog_id")
-    private List<SubQuestion> subquestcatalog;
-
+    @OneToMany(mappedBy = "categoryCatalog",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Set<CategoryOptionResponse> categoriesoptionResponse = new HashSet<>();
 
     @Embedded
     Audit audit = new Audit();

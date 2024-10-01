@@ -2,6 +2,8 @@ package com.uissurvey.uissurvey_app.domain.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -11,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
@@ -35,12 +38,17 @@ public class SubQuestion {
     @Column(name = "comment_subquestion",columnDefinition = "text", nullable = true)
     private String commentsubquestion;
 
-    @Column(length = 10, nullable = true)
+    @Column(name="subquestion_number",length = 10, nullable = true)
     private String subquestionNumber;
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "subquestion_id")
     private List<OptionQuestion> subquestion;
+
+    @ManyToOne
+    @JoinColumn(name = "subquestion_id")
+    @JsonBackReference
+    Question questions;
 
     @Embedded
     Audit audit = new Audit();

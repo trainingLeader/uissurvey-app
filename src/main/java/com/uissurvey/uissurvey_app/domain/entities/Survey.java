@@ -1,8 +1,8 @@
 package com.uissurvey.uissurvey_app.domain.entities;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -13,16 +13,14 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
 @Getter
 @Setter
 @Entity
@@ -35,12 +33,15 @@ public class Survey {
     private Long id;
 
     @Column(columnDefinition = "text", nullable = false)
+    @NotNull(message = "El nombre no puede ser nulo")
     private String name;
 
     @Column(columnDefinition = "text", nullable = false)
+    @NotNull(message = "La descripcion es obligatoria")
     private String description;
     
     @Column(columnDefinition = "text", nullable = true)
+    @NotNull(message = "Las instrucciones son requeridas")
     private String instruction;
 
     @Column(length = 20, nullable = true)
@@ -52,11 +53,8 @@ public class Survey {
     @Embedded
     Audit audit = new Audit();
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "survey_id")
+    @OneToMany( mappedBy="survey",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<Chapter> chapters;
-
-
+    private Set<Chapter> chapters = new HashSet<>();
 
 }
