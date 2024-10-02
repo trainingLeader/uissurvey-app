@@ -3,6 +3,7 @@ package com.uissurvey.uissurvey_app.domain.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -24,9 +25,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @Entity
-@EqualsAndHashCode(exclude = {"chapters"})
-@ToString(exclude = {"chapters"})
+@EqualsAndHashCode(exclude = {"chapters","answers"})
+@ToString(exclude = {"chapters","answers"})
 @Table(name = "surveys")
+@JsonIgnoreProperties({"answers"})
 public class Survey {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +51,10 @@ public class Survey {
 
     @Column(length = 20, nullable = true)
     private String componentreact;
+
+    @OneToMany(mappedBy = "surveysanswers",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<SurveyAnswer> answers = new HashSet<>();
 
     @Embedded
     Audit audit = new Audit();
