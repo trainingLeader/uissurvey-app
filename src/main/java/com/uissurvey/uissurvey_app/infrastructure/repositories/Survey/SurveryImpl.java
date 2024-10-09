@@ -52,5 +52,11 @@ public class SurveryImpl implements ISurveyService {
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsByName(String name) {
+        return repository.existsByName(name);
+    }
+
 
 }

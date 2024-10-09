@@ -15,4 +15,6 @@ public interface ISurveyService {
     Optional<Survey> update(Long id, Survey survey);
 
     Optional<Survey> delete(Long id);
+
+    boolean existsByName(String name);
 }
