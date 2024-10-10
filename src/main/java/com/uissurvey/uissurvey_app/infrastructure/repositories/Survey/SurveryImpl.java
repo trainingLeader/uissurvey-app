@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.uissurvey.uissurvey_app.application.services.ISurveyService;
 import com.uissurvey.uissurvey_app.domain.entities.Survey;
 
+@Service
 public class SurveryImpl implements ISurveyService {
 
     @Autowired
