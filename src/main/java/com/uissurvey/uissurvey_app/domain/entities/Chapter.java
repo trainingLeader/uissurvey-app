@@ -62,7 +62,7 @@ public class Chapter {
     @Embedded
     Audit audit = new Audit();
 
-    public Chapter() {
+    public Chapter() { 
     }
 
 }

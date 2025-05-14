@@ -45,5 +45,4 @@ public class OptionResponse {
     @Embedded
     Audit audit = new Audit();
 
-
 }
